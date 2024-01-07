@@ -1,0 +1,7 @@
+<div *ngIf="!(cookieConsentSeen$ | async)" class="cookie-consent">
+    <p>
+      Este sitio utiliza cookies. Al continuar navegando, aceptas el uso de cookies.
+      <button (click)="giveConsent()">Aceptar</button>
+      <button (click)="rejectConsent()">Rechazar</button>
+    </p>
+  </div>

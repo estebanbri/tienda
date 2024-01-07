@@ -1,0 +1,30 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90%;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem auto;
+    max-width: 600px;
+    width: 400px;
+}
+
+.form-field {
+    width: 90%;
+}
+
+.btn {
+    padding: 0 16px !important;
+    margin-top: 8px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.h3__datospersonales {
+    display:inline;
+    margin-right: 10px;
+}

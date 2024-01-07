@@ -1,0 +1,16 @@
+<div>
+    <img src="/assets/items/{{ cartItem.imageUrl }}" alt="{{ cartItem.name }}" class="thumbnail" />
+    <span>{{ cartItem.name }}</span>
+</div>
+<div class="info">
+    <h4>Cantidad</h4>
+    <div class="quantity-select">
+        <mat-form-field appearance="fill">
+            <mat-select [(ngModel)]="quantitySelected" (selectionChange)="onQuantitySelected()" required>
+              <mat-option *ngFor="let quantity of quantitiesList" [value]="quantity" >{{quantity.label}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+    </div>
+    <span class="info-price">{{ cartItem.price / 100 | currency:'EUR' }} </span>
+</div>
+<button mat-mini-fab color="warn" (click)="onDeleteClicked()"><mat-icon>delete</mat-icon></button>

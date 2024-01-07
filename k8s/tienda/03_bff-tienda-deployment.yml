@@ -1,0 +1,78 @@
+# Service YAML definition
+apiVersion: v1
+kind: Service
+metadata:
+  name: bff-tienda-service
+  namespace: tienda
+spec:
+  type: ClusterIP # tipo de SERVICE por defecto si no lo pondrias igualmente tomaria este valor de tipo pero para que quede claro el ejemplo lo ponemos al tipo
+  ports:
+    - protocol: "TCP"
+      port: 8080 # El puerto del SERVICE
+      targetPort: 8080 # El puerto de cada POD
+  selector:
+    app: bff-tienda
+    
+---
+
+# Deployment YAML definition
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bff-tienda
+  namespace: tienda
+spec:  # specification for deployment
+  selector:
+    matchLabels:
+      app: bff-tienda # Label que deben tener los PODS que van a ser gestionados por este deployment (spec.template.metadata.labels)
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bff-tienda # Label que tendran los PODS creados por este deployment (debe coincidir con spec.selector.matchLabels)
+    spec: # specification for pods
+      containers:
+        - name: bff-tienda
+          image: ibff-tienda:1.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          envFrom:
+          - secretRef:
+              name: tienda-secrets
+          env: # Setting Enviornmental Variables
+            - name: JWT_ACCESS_TOKEN_EXPIRATION_MS
+              valueFrom:
+                configMapKeyRef:
+                  name: tienda-config
+                  key: jwtAccessTokenExpirationMS
+
+            - name: JWT_REFRESH_TOKEN_EXPIRATION_MS
+              valueFrom:
+                configMapKeyRef:
+                  name: tienda-config
+                  key: jwtRefreshTokenExpirationMS
+
+            - name: CORS_ALLOWED_ORIGIN
+              valueFrom:
+                configMapKeyRef:
+                  name: tienda-config
+                  key: corsAllowedOrigin
+
+            - name: DB_HOST   # Setting Database host address from configMap
+              valueFrom:
+                configMapKeyRef:
+                  name: tienda-config
+                  key: dbHost
+
+            - name: DB_NAME  # Setting Database name from configMap
+              valueFrom:
+                configMapKeyRef:
+                  name: tienda-config
+                  key: dbName
+                  
+            - name: OTEL_COLLECTOR_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: tienda-config
+                  key: otlpCollectorUrl

@@ -1,0 +1,39 @@
+:host {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.thumbnail {
+    width: 45px;
+    height: 45px;
+    background-color: #d9dfe5;
+    border-radius: 50%;
+    padding: 2px;
+}
+
+button img {
+    position: relative;
+    top: 2px;
+    width: 18px;
+    height: 18px;
+}
+
+.info {
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+    padding: 0 24px;
+    align-items: center;
+}
+
+.info-price {
+    font-weight: 600;
+    width: 50px;
+}
+
+.quantity-select {
+    margin-left: 10px;
+    margin-right: 100px;
+}

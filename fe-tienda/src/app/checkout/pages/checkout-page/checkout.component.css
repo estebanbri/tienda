@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 550px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem auto;
+  max-width: 600px;
+  width: 400px;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-field {
+  width: 100%;
+}
+
+.pay_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

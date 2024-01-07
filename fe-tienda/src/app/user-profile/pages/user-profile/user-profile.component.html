@@ -1,0 +1,57 @@
+<div class="container">
+    <mat-card class="card">
+        <mat-card-header class="card-header">
+            <mat-card-title>Perfil de usuario</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <h3>General</h3>
+            <form [formGroup]="nonEditableFormGroup">
+                <mat-form-field class="form-field" appearance="outline">
+                    <mat-label>Nombre de usuario</mat-label>
+                    <input matInput placeholder="Nombre de usuario" formControlName="username" name="username"
+                        required />
+                </mat-form-field>
+                <mat-form-field class="form-field" appearance="outline">
+                    <mat-label>Estado de la cuenta</mat-label>
+                    <input matInput placeholder="Estado de la cuenta" formControlName="accountStatus"
+                        name="accountStatus" required />
+                </mat-form-field>
+                <mat-form-field class="form-field" appearance="outline">
+                    <mat-label>Rol</mat-label>
+                    <input matInput placeholder="Rol" formControlName="role" name="role" required />
+                </mat-form-field>
+                <mat-form-field class="form-field" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="Ingrese email" formControlName="email" name="email" required />
+                    <mat-icon matSuffix>email</mat-icon>
+                </mat-form-field>
+            </form>
+            <h3 class="h3__datospersonales">Datos Personales</h3> <a (click)="onEditDatosPersonalesForm()"
+                mat-stroked-button>{{editingMessage}}</a>
+            <form [formGroup]="editableFormGroup">
+                <mat-form-field class="form-field" appearance="outline">
+                    <mat-label>Primer nombre</mat-label>
+                    <input matInput placeholder="Ingrese su primer nombre" formControlName="firstName" name="firstName"
+                        required />
+                    <span class="material-icons"></span>
+                </mat-form-field>
+
+                <mat-form-field class="form-field" appearance="outline">
+                    <mat-label>Apellido</mat-label>
+                    <input matInput placeholder="Ingrese su apellido" formControlName="lastName" name="lastName"
+                        required />
+                </mat-form-field>
+                <mat-form-field class="form-field" appearance="outline">
+                    <mat-label>Pais</mat-label>
+                    <input matInput placeholder="Ingrese pais" formControlName="country" name="country" required />
+                </mat-form-field>
+                <a (click)="onChangePassword()" [routerLink]="[]">Cambiar contraseña</a>
+            </form>
+        </mat-card-content>
+        <mat-card-actions>
+            <button *ngIf="isEditing" class="w100 btn" mat-raised-button color="primary" type="submit"
+                (click)="saveUser()" [disabled]="saveUserDisabled">Guardar</button>
+            <button class="w100 btn" mat-raised-button color="secondary" routerLink="/home">Volver</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

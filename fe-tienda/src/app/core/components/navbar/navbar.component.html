@@ -1,0 +1,26 @@
+<mat-toolbar color="primary">
+    <a class="toolbar__btn" mat-fab color="secondary" routerLink="home"><span class="material-icons">home</span></a>
+    <app-search-bar></app-search-bar>
+    <div class="toolbar">
+      <div *ngIf="!(loggedIn$ | async) as loggedIn; else isLoggedIn">
+        <a mat-button [routerLink]="['/auth/login']"> <mat-icon>person_outline</mat-icon>Inicia sesión</a>
+      </div>
+        <ng-template #isLoggedIn>
+            <button mat-button [matMenuTriggerFor]="menu"><mat-icon>account_circle</mat-icon>Ignacio</button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item routerLink="/user-profile">
+                <mat-icon>manage_accounts</mat-icon>
+                 <span>Mi perfil</span>
+               </button>
+               <button mat-menu-item (click)="logOut()">
+                 <mat-icon>logout</mat-icon>
+                 <span>Cerrar sesión</span>
+               </button>
+            </mat-menu>
+        </ng-template>
+        <button mat-mini-fab [routerLink]="['/cart']" color="primary" matBadge="{{totalQuantity$ | async}}" [matBadgeHidden]="emptyCart$ | async" matBadgeColor="warn">
+          <mat-icon>shopping_cart</mat-icon>
+        </button>
+
+    </div>
+  </mat-toolbar>

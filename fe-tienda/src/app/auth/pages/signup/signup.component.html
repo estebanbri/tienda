@@ -1,0 +1,82 @@
+<div class="container" *ngIf="!signupPendingConfirmation; else signupPendingConfirmationTemplate">
+    <mat-card class="card">
+        <mat-card-header class="card-header">
+            <mat-card-title>Completá los datos para crear tu cuenta</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+                <form [formGroup]="signUpFormGroup">
+
+                    <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Nombre de usuario</mat-label>
+                        <input matInput placeholder="Ingrese nombre de usuario" formControlName="username" name="username" required />
+                    </mat-form-field>
+                    
+                    <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input matInput placeholder="Ingrese email" formControlName="email" name="email" required />
+                        <mat-icon matSuffix>email</mat-icon>
+                    </mat-form-field>
+          
+                    <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Contraseña</mat-label>
+                        <input matInput type="password" placeholder="Ingrese su password" formControlName="password" name="password" required />
+                        <mat-icon matSuffix>password</mat-icon>
+                        <mat-hint>Minimo 4 caracteres</mat-hint>
+                    </mat-form-field>
+
+                    <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Confirmar contraseña</mat-label>
+                        <input matInput type="password" placeholder="Ingrese su password" formControlName="password_confirmation" required />
+                        <mat-icon matSuffix>password</mat-icon>
+                        <mat-error *ngIf="signUpFormGroup.hasError('passwordNotMatch', 'password_confirmation')">
+                            La contraseñas no coinciden
+                        </mat-error>
+                    </mat-form-field>
+                    
+                    <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Primer nombre</mat-label>
+                        <input matInput placeholder="Ingrese su primer nombre" formControlName="firstName" name="firstName" required />
+                    </mat-form-field>
+
+                    <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Apellido</mat-label>
+                        <input matInput placeholder="Ingrese su apellido" formControlName="lastName" name="lastName" required />
+                    </mat-form-field>
+
+
+                    <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Pais</mat-label>
+                        <input matInput placeholder="Ingrese pais" formControlName="country" name="country" required />
+                    </mat-form-field>
+
+                    <div>
+                        <re-captcha formControlName="recaptchaToken" name="recaptcha"  
+                            (resolved)="resolved($event)"
+                            (error)="onError($event)"
+                            errorMode="handled" 
+                            required>
+                        </re-captcha> 
+                   </div>
+
+                </form>
+        </mat-card-content>
+        <mat-card-actions>
+            <button class="w100 btn" mat-raised-button color="primary" type="submit" (click)="sendSignUpRequest()"
+                [disabled]="signUpFormGroup.invalid || signingUpDisabled">Registrarse</button>
+            <button class="w100 btn" mat-raised-button color="secondary" routerLink="/login">Volver</button>
+        </mat-card-actions>
+    </mat-card>
+    <div class="password_recomentations">
+        <p>Para garantizar la seguridad de tu cuenta, te recomendamos seguir estas pautas al crear tu contraseña:</p>
+                    <ol>
+                      <li><strong>Longitud:</strong> Utiliza al menos 12 caracteres. Cuanto más larga, mejor.</li>
+                      <li><strong>Variedad de caracteres:</strong> Incluye letras mayúsculas y minúsculas, números y caracteres especiales (como !, @, #, $, etc.).</li>
+                      <li><strong>Evita información personal:</strong> Evita usar información fácilmente disponible sobre ti, como nombres, fechas de nacimiento o palabras comunes.</li>
+                      <li><strong>No uses palabras comunes:</strong> Evita usar palabras del diccionario o secuencias sencillas. Opta por combinaciones no predecibles.</li>
+                    </ol>
+                    <p>Recuerda, una contraseña fuerte es tu primera línea de defensa contra accesos no autorizados. ¡Mantén tus cuentas seguras!</p>
+    </div>
+</div>
+<ng-template #signupPendingConfirmationTemplate>
+    <app-signup-confirm [email]="email"></app-signup-confirm>
+</ng-template>

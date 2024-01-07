@@ -1,0 +1,12 @@
+<ng-container *ngIf="(catalog$ | async) as catalog">
+    <ng-container *ngIf="catalog.length > 0; else noData">
+        <div *ngFor="let catalogItem of catalog">
+            <div >
+                <app-catalog-item [id]="catalogItem.id"  [catalogItem]="catalogItem" (catalogItemAdd)="onAddItemToCart(catalogItem)"></app-catalog-item>
+            </div>      
+        </div>
+    </ng-container>
+</ng-container>
+<ng-template #noData>
+        <h1>No Data Found</h1>
+</ng-template>

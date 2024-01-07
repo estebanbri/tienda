@@ -1,0 +1,11 @@
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+  
+.toolbar__btn {
+  margin: 8px 25px 8px 0;
+}

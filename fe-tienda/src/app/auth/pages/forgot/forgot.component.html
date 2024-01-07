@@ -1,0 +1,27 @@
+<div class="container" *ngIf="passwordChangePendingTokenValidation && !(loggedIn$ | async); else passwordChangeRequestSended">
+    <mat-card class="card">
+        <mat-card-header class="card-header">
+            <mat-card-title>Solicitud de cambio de contraseña</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+                <p>En caso de ingresar un email que figure en nuestros registros recibirá un email de confirmación</p>
+                <form [formGroup]="passwordChangeRequestGroup">
+                    <mat-form-field class="form-field w100" appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input matInput placeholder="Ingrese su email" formControlName="email" name="email" required />
+                        <mat-icon matSuffix>email</mat-icon>
+                        <mat-error>
+                            {{ emailNotFoundMessage }}
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+        </mat-card-content>
+        <mat-card-actions>
+            <button class="w100 btn" mat-raised-button color="primary" type="submit" (click)="sendPasswordChangeRequest()" [disabled]="passwordChangeDisabled">Enviar</button>
+            <button class="w100 btn" mat-raised-button color="secondary" routerLink="/login">Volver</button>
+        </mat-card-actions>
+    </mat-card>
+</div> 
+<ng-template #passwordChangeRequestSended>
+    <app-forgot-confirm [email]="email"></app-forgot-confirm>
+</ng-template>

@@ -1,0 +1,138 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otel-collector
+  namespace: tienda
+  labels:
+    app: otel-collector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: otel-collector
+  template:
+    metadata:
+      labels:
+        app: otel-collector
+    spec:
+      containers:
+      - name: otel-collector
+        image: otel/opentelemetry-collector-contrib:0.82.0
+        args: ["--config", "/etc/config/config.yaml"]
+        ports:
+        - name: otlp-grpc
+          containerPort: 4317
+        - name: otlp-http
+          containerPort: 4318
+        - name: zpages
+          containerPort: 55679
+        - name: health-check
+          containerPort: 13133  
+        - name: pprof
+          containerPort: 1888
+        - name: prometheus
+          containerPort: 8889   
+        volumeMounts:
+        - name: config
+          mountPath: /etc/config
+      volumes:
+        - name: config
+          configMap:
+            name: otelcontribcol
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: otelcontribcol
+  namespace: tienda
+  labels:
+    app: otelcontribcol
+data:
+  config.yaml: |
+    receivers:
+      otlp:
+        protocols:
+          http:
+          grpc:
+    processors:
+      batch:
+    exporters:
+      logging:
+        loglevel: debug
+
+      loki:
+        endpoint: "http://loki-service.tienda.svc.cluster.local:3100/loki/api/v1/push"
+
+      prometheus:
+        endpoint: ":8889"
+
+      zipkin:
+        endpoint: "http://zipkin-service.tienda.svc.cluster.local:9411/api/v2/spans"
+        format: proto
+
+      otlp:
+        endpoint: "http://tempo-service.tienda.svc.cluster.local:4317"
+        tls:
+          insecure: true
+
+      jaeger:
+        endpoint: "http://jaeger-service.tienda.svc.cluster.local:14250"
+        tls:
+          insecure: true       
+
+    extensions:
+      health_check:
+      pprof:
+      zpages:
+
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: []
+          exporters: [logging,jaeger,zipkin, otlp]
+        metrics:
+          receivers: [otlp]
+          processors: []
+          exporters: [logging,prometheus]
+        logs:
+          receivers: [otlp]
+          exporters: [logging,loki]
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: otel-collector-service
+  namespace: tienda
+spec:
+  selector:
+    app: otel-collector
+  ports:
+  - name: otlp-grpc # The default network port for OTLP/gRPC
+    protocol: TCP
+    port: 4317
+    targetPort: 4317
+  - name: otlp-http # The default network port for OTLP/HTTP
+    protocol: TCP
+    port: 4318
+    targetPort: 4318
+  - name: zpages
+    protocol: TCP
+    port: 55679
+    targetPort: 55679
+  - name: health-check
+    protocol: TCP
+    port: 13133
+    targetPort: 13133    
+  - name: pprof
+    protocol: TCP
+    port: 1888
+    targetPort: 1888
+  - name: prometheus
+    protocol: TCP
+    port: 8889
+    targetPort: 8889    
+    

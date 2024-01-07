@@ -1,0 +1,15 @@
+# Mas informacion en documentacion https://developer.hashicorp.com/consul/docs/k8s/helm
+
+global:
+  name: consul
+connectInject: # Enable sidecard proxy injection to pods
+  enabled: true
+  default: true # Si le pones 'default: false' no te va a inyectar automaticamente el sidecard y tenes que agregarle a cada deployment la metadata: annotations: consul.hashicorp.com/connect-inject: 'true'
+  namespaceSelector: | # Te permite un fine grained aplicacion del sidecard proxy solo en los namespace que tengan como label connect-inject:true pero si queres que le inyecte a todos los namespace no le pongas esto
+    matchLabels:
+      connect-inject: enabled
+
+
+# Nota en caso de que hayas habilitado el namespaceSelector matchLabels le hubieses tenido que ejecutar el siguiente comando 
+# que lo que hace es agregar al namespace especifico el label connect-inject=enabled para que consul le injecte el sideproxies a los pods dentro de dicho namespace
+# kubectl label namespace tienda connect-inject=enabled

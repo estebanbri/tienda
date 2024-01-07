@@ -1,0 +1,12 @@
+apiVersion : v1
+kind : ConfigMap
+metadata:
+  name : tienda-config
+  namespace: tienda
+data:
+  jwtAccessTokenExpirationMS : '300000'
+  jwtRefreshTokenExpirationMS : '900000'
+  corsAllowedOrigin: http://localhost:80
+  dbName: tiendadb
+  dbHost: mysql
+  otlpCollectorUrl: http://otel-collector-service.tienda.svc.cluster.local:4317

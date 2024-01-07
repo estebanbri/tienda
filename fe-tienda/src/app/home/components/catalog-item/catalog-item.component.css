@@ -1,0 +1,35 @@
+.thumbnail {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.info-price {
+    font-weight: 600;
+}
+
+.card_item {
+    margin: 2rem;
+    width: 300px;
+    background-color: white;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.img__container {
+    width: 300px;
+    height: 200px;
+    background-color: #d9dfe5;
+    margin: 0 auto;
+}
+
+.btn {
+    padding: 0 16px;
+    margin-top: 8px;
+    margin-left: 0;
+    margin-right: 0;
+}

@@ -1,0 +1,44 @@
+
+<!-- Display a payment form -->
+<mat-stepper linear #stepper>
+  <mat-step>
+      <ng-template matStepLabel>Datos personales</ng-template>
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Complete los datos personales</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form>
+            <div #addressElement>
+              <!-- Elements will create form elements here -->
+            </div>
+          </form>
+        </mat-card-content>
+        <mat-card-actions>
+            <button class="w100" mat-flat-button color="primary" matStepperNext [disabled]="goToPayDisabled" (click)="updateCustomerData()">Siguiente</button>
+            <button class="w100" mat-flat-button (click)="cancelPaymentIntent()">Volver</button>
+        </mat-card-actions>
+      </mat-card>
+      </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Completar Pago</ng-template>
+    <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Metodo de pago</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div #paymentElement>
+            <!--Stripe.js injects the Payment Element-->
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button class="w100 pay_btn" mat-flat-button color="primary" (click)="pay()" [disabled]="payDisabled || loading">
+            <mat-spinner *ngIf="loading" diameter="25" style="margin:5px">&nbsp;</mat-spinner>
+            <span *ngIf="!loading">Pagar {{ ( amount$ | async) | currency:'EUR' }}</span>
+           </button>
+           <button class="w100" mat-flat-button matStepperPrevious>Volver</button>
+        </mat-card-actions>
+      </mat-card>
+  </mat-step>
+
+</mat-stepper>

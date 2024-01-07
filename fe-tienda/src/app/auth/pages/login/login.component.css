@@ -1,0 +1,48 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .login-card {
+    width: 400px;
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .form-field {
+    width: 100%;
+  }
+  
+  .error-message {
+    color: red;
+    margin-bottom: 15px;
+  }
+  
+  .forgot-password-link {
+    display: block;
+    text-align: right;
+    margin-bottom: 15px;
+    margin-left: auto;
+    color: #1976D2; /* Puedes ajustar el color del enlace según tu preferencia */
+  }
+  
+  .signup-link {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  .w100 {
+    width: 100%;
+  }
+
+  .signup-container {
+    text-align: center;
+    margin-top: 15px;
+  }

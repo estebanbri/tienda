@@ -1,0 +1,20 @@
+<a class="back" routerLink="/home">&lt; Volver al catalogo</a>
+<mat-card class="card">
+    <mat-card-content>
+        <p class="title">Mi Carrito<mat-icon>shopping_cart</mat-icon></p>
+        <div *ngIf="(cartItems$ | async)!.length > 0 else noData">
+            <app-cart-item *ngFor="let item of cartItems$ | async; let i = index" [cartItem]="item" (cartItemDelete)="deleteItem(i)"></app-cart-item>    
+        </div>
+        <button style="margin:5px" *ngIf="!(emptyCart$ | async)" mat-raised-button color="secondary" (click)="clearCart()">Vaciar carrito</button>
+        <mat-divider></mat-divider>
+        <ng-template #noData>
+            <mat-icon>shopping_basket</mat-icon> Carrito vacio
+        </ng-template>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <p class="total"><span class="total-label">total:</span> {{ (amount$ | async) | currency:'EUR' }}</p>
+        <button class="btn-purchase" mat-raised-button color="primary" [routerLink]="['/checkout']" [disabled]="emptyCart$ | async">Finalizar
+            Pedido</button>
+    </mat-card-actions>
+</mat-card>
+

@@ -1,0 +1,114 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tempo
+  namespace: tienda
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tempo
+  template:
+    metadata:
+      labels:
+        app: tempo
+    spec:
+      containers:
+      - name: tempo
+        image: grafana/tempo:latest
+        ports:
+        - name: tempo-ui
+          containerPort: 3200
+        - name: otlp-grpc
+          containerPort: 4317
+        - name: otlp-http
+          containerPort: 4318
+        command:
+          - "/tempo"
+          - "--config.file=/etc/tempo/tempo.yaml"  # Agrega la línea para indicar el archivo de configuración de Tempo
+        volumeMounts:
+        - name: tempo-config
+          mountPath: /etc/tempo  # Ruta donde se montará el archivo de configuración
+      volumes:
+      - name: tempo-config
+        configMap:
+          name: tempo-configmap  # Nombre del ConfigMap que contiene el archivo de configuración
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tempo-configmap
+  namespace: tienda
+data:
+  tempo.yaml: |
+    server:
+      http_listen_port: 3200
+
+    distributor:
+      receivers:
+        jaeger:
+          protocols:
+            thrift_http:
+            grpc:
+            thrift_binary:
+            thrift_compact: 
+        zipkin:
+        otlp:
+          protocols:
+            http:
+            grpc:
+        opencensus:
+
+    ingester:
+      max_block_duration: 5m
+
+    compactor:
+      compaction:
+        block_retention: 1h
+
+    metrics_generator:
+      registry:
+        external_labels:
+          source: tempo
+          cluster: kubernetes
+      storage:
+        path: /tmp/tempo/generator/wal
+        remote_write:
+          - url: http://prometheus-service.tienda.svc.cluster.local:9090/api/v1/write
+            send_exemplars: true
+
+    storage:
+      trace:
+        backend: local
+        wal:
+          path: /tmp/tempo/wal
+        local:
+          path: /tmp/tempo/blocks
+
+    overrides:
+      metrics_generator_processors: [service-graphs, span-metrics]
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tempo-service
+  namespace: tienda
+spec:
+  selector:
+    app: tempo
+  ports:
+  - name: http
+    protocol: TCP
+    port: 3200
+    targetPort: 3200
+  - name: otlp-grpc
+    protocol: TCP
+    port: 4317
+    targetPort: 4317
+  - name: otlp-http
+    protocol: TCP
+    port: 4318
+    targetPort: 4318

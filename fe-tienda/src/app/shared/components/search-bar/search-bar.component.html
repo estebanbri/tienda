@@ -1,0 +1,14 @@
+<div class="container">
+    <form [formGroup]="searchForm">
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Buscar</mat-label>
+                <input matInput formControlName="searchTerm" />
+                <button *ngIf="searchForm.get('searchTerm').value" matSuffix mat-icon-button aria-label="Clear" (click)="searchForm.get('searchTerm').setValue('')">
+                    <mat-icon>close</mat-icon>
+                </button>
+                <button *ngIf="!searchForm.get('searchTerm').value" matSuffix mat-icon-button aria-label="Clear" (click)="searchForm.get('searchTerm').setValue('')">
+                    <mat-icon>search</mat-icon>
+                </button>
+            </mat-form-field>
+    </form>
+</div>

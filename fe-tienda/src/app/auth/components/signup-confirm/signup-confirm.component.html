@@ -1,0 +1,24 @@
+<div class="container">
+    <mat-card class="card">
+        <mat-card-header class="card-header">
+            <mat-card-title>¡Hola! Necesitamos validar tu cuenta</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+             <p>Te enviamos un email de confirmación para que valides tu cuenta y puedas utilizar las funcionalidades del sitio. 
+                Ingresa el código que te hemos enviado a {{ email }} <a>(Cambiar)</a></p>   
+            <form [formGroup]="tokenFormGroup" class="centeredForm">
+                <mat-form-field class="form-field__token" appearance="outline">
+                    <mat-label>Código</mat-label>
+                    <input matInput placeholder="Ingrese codigo" formControlName="token" name="token" required/>
+                    <mat-error>
+                        Por favor, ingrese un número de 4 cifras.
+                    </mat-error>
+                </mat-form-field>
+            </form>
+            <a>Volver a enviar código</a>
+        </mat-card-content>
+        <mat-card-actions>
+            <button class="w100" mat-raised-button color="primary" type="submit" (click)="verifyToken()" [disabled]="tokenFormGroup.invalid || verifyTokenDisabled">Confirmar</button>
+        </mat-card-actions>
+    </mat-card>
+</div> 

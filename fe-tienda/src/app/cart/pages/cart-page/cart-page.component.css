@@ -1,0 +1,44 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3%;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 54px;
+}
+
+.total-label {
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #757575;
+}
+
+.total {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 10px;
+}
+
+.back {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #808080;
+    font-size: 0.825rem;
+    margin-bottom: 16px;
+}
+
+.back:hover {
+    text-decoration: underline;
+}
+
+/* .card {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem auto;
+    width: 70%;
+} */

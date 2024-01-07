@@ -1,0 +1,39 @@
+# Service YAML definition
+apiVersion: v1
+kind: Service
+metadata:
+  name: fe-tienda-service
+  namespace: tienda
+spec:
+  type: ClusterIP  # type of the service.
+  selector:
+    app: fe-tienda
+  ports:
+  - protocol: TCP
+    port: 80   # Puerto del service  (aka de entrada)
+    targetPort: 80   # Puerto al que llama el servicio (aka de salida)
+
+---
+
+# Deployment YAML definition
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fe-tienda
+  namespace: tienda
+spec:
+  selector:
+    matchLabels:
+      app: fe-tienda  # Label que deben tener los PODS que van a ser gestionados por este deployment (spec.template.metadata.labels)
+  replicas: 1 # Number of replicas that will be created for this deployment
+  template:
+    metadata:
+      labels:
+        app: fe-tienda  # Label que tendran los PODS creados por este deployment (debe coincidir con spec.selector.matchLabels)
+    spec:
+      containers:
+      - name: fe-tienda
+        image: ife-tienda:1.0 # Image that will be used to containers in the cluster
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80 # The port that the container is running on in the cluster

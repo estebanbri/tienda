@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tienda-ingress
+  namespace: tienda
+spec:
+#  tls:
+#  - hosts:
+#    - tienda.com # Replace with your cluster DNS name
+#    secretName: self-signed-tls
+  rules: # Definicion de las reglas de ruteo
+  - host: fe-tienda.com # Tipo de ruteo basado en host name. A este hostname lo tenes registrado en el archivo HOST o bien podrias usar algo como tienda.172.22.200.178.nip.io de nip.io pero este archivo no lo tendrias que ejecutar hasta saber la ip que te tiene tu nodo (EJ siendo 172.22.200.178 la ip del nodo)
+    http:
+      paths:
+        - path: /  # Aca es donde definirias los N path en caso de usar el tipo de ruteo basado en path ej /app1 , /app2 etc la mayoria de las empresas cuando tiene que representar varias apps bajo su mismo dominio lo que hacer uso es del sabor del tipo de ruteo de dominio pero lo hacen con subdominios es decir app1.level3.com, app2.level3.com etc
+          pathType: Prefix
+          backend:
+            service:
+              name: fe-tienda-service # SERVICE name que le va a redirigir el trafico
+              port:
+                number: 80 # Puerto del SERVICE en que esta escuchando fe-tienda (es decir el nginx con el angular)
+  - host: bff-tienda.com # Tipo de ruteo basado en host name. A este hostname lo tenes registrado en el archivo HOST o bien podrias usar algo como tienda.172.22.200.178.nip.io de nip.io pero este archivo no lo tendrias que ejecutar hasta saber la ip que te tiene tu nodo (EJ siendo 172.22.200.178 la ip del nodo)
+    http:
+      paths:
+        - path: / # Aca es donde definirias los N path en caso de usar el tipo de ruteo basado en path ej /app1 , /app2 etc la mayoria de las empresas cuando tiene que representar varias apps bajo su mismo dominio lo que hacer uso es del sabor del tipo de ruteo de dominio pero lo hacen con subdominios es decir app1.level3.com, app2.level3.com etc
+          pathType: Prefix
+          backend:
+            service:
+              name: bff-tienda-service # SERVICE name que le va a redirigir el trafico
+              port:
+                number: 8080 # Puerto del SERVICE en que esta escuchando fe-tienda (es decir el nginx con el angular)

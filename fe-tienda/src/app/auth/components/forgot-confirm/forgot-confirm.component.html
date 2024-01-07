@@ -1,0 +1,57 @@
+<div class="container" *ngIf="!tokenValidationSuccess else passwordChangeConfirmTemplate">
+    <mat-card class="card">
+        <mat-card-header class="card-header">
+            <mat-card-title>Confirmación de cambio de contraseña</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <h2>Ingrese el Código Numérico</h2>
+            <p>Para verificar tu email, te hemos enviado un código a {{ email }} <a>(Cambiar)</a></p>   
+           <form [formGroup]="tokenFormGroup" class="centeredForm">
+               <mat-form-field class="form-field__token" appearance="outline">
+                   <mat-label>Código</mat-label>
+                   <input class="w100" matInput placeholder="Ingrese codigo" formControlName="token" name="token" required />
+                   <mat-error>
+                        Por favor, ingrese un número de 4 cifras.
+                    </mat-error>
+               </mat-form-field>
+           </form>
+           <a>Volver a enviar código</a>           
+        </mat-card-content>
+        <mat-card-actions>
+            <button class="w100" mat-raised-button color="primary" type="submit" (click)="sendPasswordChangeTokenValidation()" [disabled]="tokenFormGroup.invalid || verifyTokenDisabled">Confirmar</button>
+        </mat-card-actions>
+    </mat-card>
+</div> 
+
+<ng-template #passwordChangeConfirmTemplate>
+    <mat-card class="card">
+        <mat-card-header class="card-header">
+            <mat-card-title>Confirmación de cambio de contraseña</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+<div >
+    <form [formGroup]="passwordChangeConfirmGroup">
+        <mat-form-field class="form-field__password w100" appearance="outline">
+            <mat-label>Contraseña</mat-label>
+            <input matInput type="password" placeholder="Ingrese su password" formControlName="password" name="password" required />
+            <mat-icon matSuffix>password</mat-icon>
+            <mat-hint>Minimo 4 caracteres</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="form-field__password w100" appearance="outline">
+            <mat-label>Confirmar contraseña</mat-label>
+            <input matInput type="password" placeholder="Ingrese su password" formControlName="password_confirmation" required />
+            <mat-icon matSuffix>password</mat-icon>
+            <mat-error *ngIf="passwordChangeConfirmGroup.hasError('passwordNotMatch', 'password_confirmation')">
+                La contraseñas no coinciden
+            </mat-error>
+        </mat-form-field>
+    </form>
+</div>         
+        </mat-card-content>
+        <mat-card-actions>
+            <button class="w100" mat-raised-button color="primary" type="submit" (click)="sendPasswordChangeConfirm()">Confirmar</button>
+        </mat-card-actions>
+    </mat-card>
+    
+</ng-template>

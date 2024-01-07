@@ -1,0 +1,11 @@
+filebeat.inputs:
+  - type: log
+    paths:
+      - /tmp/output.log
+    fields_under_root: true # esto es para que los fields en el archivo logstash.conf no necesiten ser accedidos asi %{[fields][appName]} sino directamente va el field %{appName}
+    fields:
+      appName: "bff-tienda"  
+
+output:
+  logstash:
+    hosts: [ "logstash-service.tienda.svc.cluster.local:5044" ]
