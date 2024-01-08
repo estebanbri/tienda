@@ -1,7 +1,9 @@
 # Tienda
 
 ## Starup K8s
+```
 ./entrypoint-cluster-k8s.ps1
+```
 
 ### Opcional Instalar Consul via helm (REQUIERE TERMINAL COMO ADMINISTRADOR)
 Usando una terminal con privilegio de admin:
