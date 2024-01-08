@@ -1,0 +1,45 @@
+# Service YAML definition
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogo-service
+  namespace: tienda
+spec:
+  type: ClusterIP # tipo de SERVICE por defecto si no lo pondrias igualmente tomaria este valor de tipo pero para que quede claro el ejemplo lo ponemos al tipo
+  ports:
+    - protocol: "TCP"
+      port: 8080 # El puerto del SERVICE
+      targetPort: 8080 # El puerto de cada POD
+  selector:
+    app: catalogo
+    
+---
+
+# Deployment YAML definition
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalogo
+  namespace: tienda
+spec:  # specification for deployment
+  selector:
+    matchLabels:
+      app: catalogo # Label que deben tener los PODS que van a ser gestionados por este deployment (spec.template.metadata.labels)
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: catalogo # Label que tendran los PODS creados por este deployment (debe coincidir con spec.selector.matchLabels)
+    spec: # specification for pods
+      containers:
+        - name: catalogo
+          image: icatalogo-tienda:1.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env: # Setting Enviornmental Variables
+            - name: OTEL_COLLECTOR_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: tienda-config
+                  key: otlpCollectorUrl

@@ -1,5 +1,7 @@
 package com.example.tiendabackend.model;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,10 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CatalogoItem {
-    private Long id;
-    private String imageUrl;
-    private String name;
-    private String vendor;
-    private long price;
+public class Catalogo {
+    private List<CatalogoItem> catalogo;
 }

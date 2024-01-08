@@ -1,4 +1,4 @@
-package com.example.tiendabackend.model;
+package com.example.catalogoservice.infrastructure.adapter.rest.catalogo.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CatalogoItem {
+public class CatalogoItemDto {
     private Long id;
     private String imageUrl;
     private String name;

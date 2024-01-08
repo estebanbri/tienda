@@ -1,4 +1,4 @@
-package com.example.tiendabackend.model;
+package com.example.catalogoservice.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
