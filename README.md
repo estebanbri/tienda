@@ -13,7 +13,9 @@ powershell -ExecutionPolicy Bypass -File .\k8s\consul\instalar_consul.ps1
 Nota: ver al final del readme como inyectar el sidecontainer envoy-proxy a tus containers.
 
 # Para ver si levanto todos los objetos de k8s correctamente
+``` 
 kubectl get all --all-namespaces
+``` 
 
 #### 4.2 Habilitar Ingress
 ``` 
